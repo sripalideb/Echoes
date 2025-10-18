@@ -1,4 +1,5 @@
-import { motion } from 'motion/react';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface FloatingLanternProps {
   delay: number;
@@ -8,7 +9,18 @@ interface FloatingLanternProps {
   size: 'small' | 'medium' | 'large';
 }
 
+interface Spark {
+  id: number;
+  angle: number;
+  distance: number;
+  opacity: number;
+  scale: number;
+}
+
 export function FloatingLantern({ delay, duration, x, color, size }: FloatingLanternProps) {
+  const [sparks, setSparks] = useState<Spark[]>([]);
+  const [isClicked, setIsClicked] = useState(false);
+
   const sizeMap = {
     small: { width: 30, height: 40 },
     medium: { width: 40, height: 55 },
@@ -17,13 +29,34 @@ export function FloatingLantern({ delay, duration, x, color, size }: FloatingLan
 
   const dimensions = sizeMap[size];
 
+  const handleHover = useCallback(() => {
+    if (isClicked) return;
+    
+    setIsClicked(true);
+    const newSparks = Array.from({ length: 16 }, (_, i) => ({
+      id: i,
+      angle: (Math.PI * 2 * i) / 16,
+      distance: 0,
+      opacity: 1,
+      scale: 1.5,
+    }));
+    setSparks(newSparks);
+
+    // Reset after animation
+    setTimeout(() => {
+      setSparks([]);
+      setIsClicked(false);
+    }, 1200);
+  }, [isClicked]);
+
   return (
     <motion.div
-      className="absolute pointer-events-none"
+      className="absolute"
       style={{
         left: `${x}%`,
         bottom: '-10%',
       }}
+      onHoverStart={handleHover}
       initial={{ y: 0, opacity: 0 }}
       animate={{
         y: '-120vh',
@@ -151,6 +184,38 @@ export function FloatingLantern({ delay, duration, x, color, size }: FloatingLan
           opacity="0.5"
         />
       </svg>
+
+      {/* Spark Effect */}
+      <AnimatePresence>
+        {sparks.map((spark) => (
+          <motion.div
+            key={spark.id}
+            className="absolute"
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: '50%',
+              backgroundColor: color,
+              boxShadow: `0 0 8px ${color}`,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            initial={{ scale: 1.5, opacity: 1 }}
+            animate={{
+              x: Math.cos(spark.angle) * 80,
+              y: Math.sin(spark.angle) * 80,
+              scale: [1.5, 0.7],
+              opacity: [1, 0],
+            }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{
+              duration: 1,
+              ease: "easeOut",
+            }}
+          />
+        ))}
+      </AnimatePresence>
     </motion.div>
   );
 }
