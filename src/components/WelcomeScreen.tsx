@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import { DiyaIcon } from './DiyaIcon';
-import { FloatingLantern } from './FloatingLantern';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { DiyaIcon } from "./DiyaIcon";
+import { FloatingLantern } from "./FloatingLantern";
 
 interface WelcomeScreenProps {
   onEnter: () => void;
   backgroundImage: string;
 }
 
-export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) {
+export function WelcomeScreen({
+  onEnter,
+  backgroundImage,
+}: WelcomeScreenProps) {
   const [showMessage, setShowMessage] = useState(false);
   const [isHoveringDiya, setIsHoveringDiya] = useState(false);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -42,52 +45,64 @@ export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) 
 
   return (
     <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background with lotus image */}
-      <div 
+      {/* Background image */}
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'brightness(0.35)',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "brightness(0.35)",
         }}
       />
-      
-      {/* Warm cozy overlay for better text visibility */}
-      <div 
+
+      {/* Overlay */}
+      <div
         className="absolute inset-0 z-0"
         style={{
-          background: 'radial-gradient(circle at center, rgba(75, 30, 30, 0.3), rgba(75, 30, 30, 0.7))',
+          background:
+            "radial-gradient(circle at center, rgba(75, 30, 30, 0.3), rgba(75, 30, 30, 0.7))",
         }}
       />
 
-      {/* Floating Sky Lanterns */}
-      <FloatingLantern delay={0} duration={25} x={10} color="#FFD4A3" size="medium" />
-      <FloatingLantern delay={3} duration={28} x={25} color="#FF9A7A" size="small" />
-      <FloatingLantern delay={6} duration={30} x={75} color="#A8D5E2" size="large" />
-      <FloatingLantern delay={2} duration={26} x={85} color="#FFD4A3" size="small" />
-      <FloatingLantern delay={8} duration={32} x={50} color="#FF9A7A" size="medium" />
-      <FloatingLantern delay={5} duration={27} x={65} color="#A8D5E2" size="small" />
-      <FloatingLantern delay={10} duration={29} x={40} color="#FFD4A3" size="large" />
-      <FloatingLantern delay={12} duration={31} x={15} color="#A8D5E2" size="medium" />
-            <FloatingLantern delay={0} duration={25} x={10} color="#FFD4A3" size="medium" />
-      <FloatingLantern delay={1} duration={28} x={85} color="#FF9A7A" size="small" />
-      <FloatingLantern delay={5} duration={30} x={55} color="#A8D5E2" size="large" />
-      <FloatingLantern delay={9} duration={26} x={45} color="#FFD4A3" size="small" />
-      <FloatingLantern delay={2} duration={32} x={53} color="#FF9A7A" size="medium" />
-      <FloatingLantern delay={3} duration={27} x={68} color="#A8D5E2" size="small" />
-      <FloatingLantern delay={4} duration={29} x={20} color="#FFD4A3" size="large" />
-      <FloatingLantern delay={6} duration={31} x={25} color="#A8D5E2" size="medium" />
+      {/* Floating Lanterns */}
+      {[
+        [0, 25, 10, "#FFD4A3", "medium"],
+        [3, 28, 25, "#FF9A7A", "small"],
+        [6, 30, 75, "#A8D5E2", "large"],
+        [2, 26, 85, "#FFD4A3", "small"],
+        [8, 32, 50, "#FF9A7A", "medium"],
+        [5, 27, 65, "#A8D5E2", "small"],
+        [10, 29, 40, "#FFD4A3", "large"],
+        [12, 31, 15, "#A8D5E2", "medium"],
+        [1, 28, 85, "#FF9A7A", "small"],
+        [5, 30, 55, "#A8D5E2", "large"],
+        [9, 26, 45, "#FFD4A3", "small"],
+        [2, 32, 53, "#FF9A7A", "medium"],
+        [3, 27, 68, "#A8D5E2", "small"],
+        [4, 29, 20, "#FFD4A3", "large"],
+        [6, 31, 25, "#A8D5E2", "medium"],
+      ].map(([delay, duration, x, color, size], idx) => (
+        <FloatingLantern
+          key={idx}
+          delay={delay as number}
+          duration={duration as number}
+          x={x as number}
+          color={color as string}
+          size={size as "small" | "medium" | "large"}
+        />
+      ))}
 
-      {/* Floating lotus-inspired sparkles */}
+      {/* Sparkles */}
       {[...Array(15)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full"
           style={{
-            width: Math.random() > 0.7 ? '3px' : '2px',
-            height: Math.random() > 0.7 ? '3px' : '2px',
-            backgroundColor: i % 3 === 0 ? '#FF9A7A' : i % 3 === 1 ? '#FFD4A3' : '#A8D5E2',
+            width: Math.random() > 0.7 ? "3px" : "2px",
+            height: Math.random() > 0.7 ? "3px" : "2px",
+            backgroundColor:
+              i % 3 === 0 ? "#FF9A7A" : i % 3 === 1 ? "#FFD4A3" : "#A8D5E2",
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
           }}
@@ -105,7 +120,7 @@ export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) 
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 py-12 max-w-md mx-auto">
-        {/* App Title */}
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,9 +128,9 @@ export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) 
           className="mb-3"
           style={{
             fontFamily: "'Pacifico', cursive",
-            fontSize: '3.5rem',
-            color: '#FFD4A3',
-            textShadow: '0 2px 30px rgba(255, 154, 122, 0.6)',
+            fontSize: "3.5rem",
+            color: "#FFD4A3",
+            textShadow: "0 2px 30px rgba(255, 154, 122, 0.6)",
             lineHeight: 1.2,
           }}
         >
@@ -128,131 +143,149 @@ export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) 
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
           className="mb-12 text-center"
-          style={{ 
-            color: '#F5E9D5',
-            fontSize: '1.125rem',
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+          style={{
+            color: "#F5E9D5",
+            fontSize: "1.125rem",
+            textShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
           }}
         >
           The sounds of home, shared across the world.
         </motion.p>
 
-        {/* Interactive Diya - Click to Enter */}
+        {/* Interactive Diya */}
         <div className="relative mb-8">
           <motion.div
             className="relative cursor-pointer"
-            onClick={onEnter}
             onHoverStart={showRandomMessage}
             onHoverEnd={hideMessage}
+            onClick={() => {
+              if (showMessage)
+                onEnter(); // Only go inside if message already shown
+              else showRandomMessage(); // First tap shows message
+            }}
             onTouchStart={(e) => {
               e.preventDefault();
-              if (showMessage) {
-                hideMessage();
-              } else {
-                showRandomMessage();
-              }
+              if (showMessage) onEnter();
+              else showRandomMessage();
             }}
-            animate={{
-              y: [0, -12, 0],
-            }}
-            transition={{
-              duration: 3.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
           >
-            {/* Diya glow effect */}
+            {/* Glow */}
             <motion.div
               className="absolute inset-0 rounded-full blur-3xl"
-              style={{ 
-                backgroundColor: isHoveringDiya ? '#FF9A7A' : '#FFD4A3',
-                width: '120px',
-                height: '120px',
+              style={{
+                backgroundColor: isHoveringDiya ? "#FF9A7A" : "#FFD4A3",
+                width: "120px",
+                height: "120px",
               }}
               animate={{
                 opacity: isHoveringDiya ? [0.4, 0.7, 0.4] : [0.3, 0.5, 0.3],
                 scale: isHoveringDiya ? [1, 1.3, 1] : [1, 1.15, 1],
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
+              transition={{ duration: 2, repeat: Infinity }}
             />
-            
+
             {/* Diya icon */}
             <motion.div
               className="relative"
-              animate={{
-                rotate: isHoveringDiya ? [0, -2, 2, -2, 0] : 0,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
+              animate={{ rotate: isHoveringDiya ? [0, -2, 2, -2, 0] : 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <DiyaIcon 
+              <DiyaIcon
                 className="w-32 h-32"
                 style={{
-                  filter: 'drop-shadow(0 4px 20px rgba(255, 154, 122, 0.4))',
+                  filter: "drop-shadow(0 4px 20px rgba(255, 154, 122, 0.4))",
                 }}
               />
             </motion.div>
           </motion.div>
 
-          {/* Hover message */}
+          {/* Floating message */}
           <motion.div
             initial={{ opacity: 0, y: -10, scale: 0.9 }}
-            animate={{ 
-              opacity: showMessage ? 1 : 0, 
+            animate={{
+              opacity: showMessage ? 1 : 0,
               y: showMessage ? -30 : -20,
               scale: showMessage ? 1 : 0.9,
             }}
             transition={{ duration: 0.3 }}
             className="absolute -top-32 left-1/2 -translate-x-1/2 w-72 px-5 py-3 rounded-2xl backdrop-blur-lg pointer-events-none"
-            style={{ 
-              backgroundColor: 'rgba(245, 233, 213, 0.95)',
-              boxShadow: '0 8px 32px rgba(255, 154, 122, 0.4)',
-              border: '1px solid rgba(255, 212, 163, 0.5)',
+            style={{
+              backgroundColor: "rgba(245, 233, 213, 0.95)",
+              boxShadow: "0 8px 32px rgba(255, 154, 122, 0.4)",
+              border: "1px solid rgba(255, 212, 163, 0.5)",
             }}
           >
-            <p className="text-sm text-center leading-relaxed" style={{ color: '#4B1E1E' }}>
+            <p
+              className="text-sm text-center leading-relaxed"
+              style={{ color: "#4B1E1E" }}
+            >
               {affirmations[currentMessageIndex]}
             </p>
           </motion.div>
         </div>
 
-        {/* Interactive prompt - Creative CTA */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
           className="text-center"
         >
-          <motion.p
-            onClick={onEnter}
-            className="cursor-pointer px-6 py-2"
-            style={{ 
-              color: '#FFD4A3',
-              fontSize: '1.25rem',
-              fontWeight: '500',
-              textShadow: '0 0 10px rgba(247, 133, 2, 0.9), 0 0 20px rgba(247, 133, 2, 0.7), 0 0 30px rgba(247, 133, 2, 0.5)',
-            }}
-            animate={{
-              opacity: [0.85, 1, 0.85],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            whileHover={{
-              scale: 1.05,
-              textShadow: '0 0 15px rgba(239, 214, 26, 0.99), 0 0 30px rgba(239, 214, 26, 0.8), 0 0 45px rgba(239, 214, 26, 0.6)',
-            }}
+          <motion.div
+            className="relative inline-block"
+            initial="initial"
+            whileHover="hover"
           >
-            Touch the flame to begin
-          </motion.p>
+            <motion.p
+              onClick={onEnter}
+              className="px-6 py-2 cursor-pointer relative z-10"
+              style={{
+                color: "#FFD4A3",
+                fontSize: "1.25rem",
+                fontWeight: "500",
+                textShadow:
+                  "0 0 5px rgba(177, 154, 127, 0.5), 0 0 10px rgba(247, 133, 2, 0.3)",
+              }}
+              animate={{ opacity: [0.85, 1, 0.85] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              Touch the flame to begin
+            </motion.p>
+            <motion.div
+              className="absolute left-6 bottom-0 h-[3px]"
+              style={{
+                background: "linear-gradient(90deg, #FFD4A3, #FF9A7A, #FF6B6B)",
+                boxShadow:
+                  "0 0 10px rgba(255, 154, 122, 0.6), 0 0 20px rgba(255, 107, 107, 0.4)",
+                transformOrigin: "left",
+              }}
+              variants={{
+                initial: { scaleX: 0 },
+                hover: { scaleX: 1 },
+              }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <motion.div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(255,212,163,0.5), rgba(255,154,122,0.5), rgba(255,107,107,0.5))",
+                }}
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+            </motion.div>
+          </motion.div>
         </motion.div>
 
         {/* Microcopy */}
@@ -261,12 +294,14 @@ export function WelcomeScreen({ onEnter, backgroundImage }: WelcomeScreenProps) 
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 1 }}
           className="mt-12 text-center text-sm opacity-60 leading-relaxed"
-          style={{ 
-            color: '#F5E9D5',
-            textShadow: '0 1px 8px rgba(0, 0, 0, 0.5)',
+          style={{
+            color: "#F5E9D5",
+            textShadow: "0 1px 8px rgba(0, 0, 0, 0.5)",
           }}
         >
-          For anyone far from home this Diwali,<br />may these echoes find you
+          For anyone far from home this Diwali,
+          <br />
+          may these echoes find you
         </motion.p>
       </div>
     </div>
