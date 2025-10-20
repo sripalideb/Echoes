@@ -1,11 +1,13 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-  import { defineConfig } from 'vite';
-  import react from '@vitejs/plugin-react-swc';
-  import path from 'path';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  export default defineConfig({
-    base: '/echoes/',
-    plugins: [react()],
+export default defineConfig({
+  base: '/echoes/',
+  plugins: [react()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
